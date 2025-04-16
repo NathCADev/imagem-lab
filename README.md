@@ -2,6 +2,13 @@
 
 **Imagem Lab** é uma ferramenta web desenvolvida como **um projeto de estudo** para praticar a manipulação de imagens no navegador usando **HTML, CSS e JavaScript** (Vanilla JS). A proposta principal é explorar e implementar funcionalidades de edição de imagem de forma interativa e acessível, sem a necessidade de servidores externos.
 
+## 🖼️ Preview do Projeto
+
+Aqui está um preview do **Imagem Lab** em funcionamento:
+
+![Preview do Imagem Lab](assets/preview.png)
+
+
 ## ✨ Funcionalidades
 
 - 📤 **Upload de Imagens**: Arraste e solte ou selecione arquivos diretamente do seu dispositivo.
