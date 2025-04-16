@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet">
+    <link rel="shortcut icon" href="icon.png" type="image/x-icon" />
+    <title>Editor de Imagens Mágico 🔮 – Converta, Redimensione, Edite!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Imagem Lab</h1>
+            <p>Converta, redimensione, recorte e edite suas imagens</p>
+        </header>
+
+        <div class="tab-container">
+            <button class="tab active" data-tab="upload">Carregar Imagem</button>
+            <button class="tab" data-tab="converter">Converter</button>
+            <button class="tab" data-tab="resize">Redimensionar</button>
+            <button class="tab" data-tab="crop">Recortar</button>
+            <button class="tab" data-tab="filters">Filtros</button>
+            <button class="tab" data-tab="compress">Comprimir</button>
+        </div>
+
+        <div class="main-area">
+            <div class="tools-panel">
+                <!-- Aba de Upload -->
+                <div class="tab-content active" id="tab-upload">
+                    <div class="dropzone" id="dropzone">
+                        <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <p>Arraste e solte uma imagem aqui<br>ou</p>
+                        <input type="file" id="fileInput" accept="image/*" hidden>
+                        <label for="fileInput" class="file-label">Carregar Imagem</label>
+                    </div>
+                    <div class="message info">
+                        Carregue uma imagem para começar a editar. Após carregar, escolha uma das ferramentas nos menus
+                        acima.
+                    </div>
+                </div>
+
+                <!-- Aba de Conversão -->
+                <div class="tab-content" id="tab-converter">
+                    <div class="input-group">
+                        <label for="formatSelect">Formato de saída:</label>
+                        <select id="formatSelect">
+                            <option value="image/png">PNG</option>
+                            <option value="image/jpeg">JPG</option>
+                            <option value="image/webp">WEBP</option>
+                        </select>
+                    </div>
+                    <button id="convertBtn" class="download-btn">Converter e Baixar</button>
+                </div>
+
+                <!-- Aba de Redimensionamento -->
+                <div class="tab-content" id="tab-resize">
+                    <div class="input-group">
+                        <label for="widthInput">Largura (px):</label>
+                        <input type="number" id="widthInput" min="1" placeholder="Largura">
+                    </div>
+                    <div class="input-group">
+                        <label for="heightInput">Altura (px):</label>
+                        <input type="number" id="heightInput" min="1" placeholder="Altura">
+                    </div>
+                    <div class="input-group">
+                        <label>
+                            <input type="checkbox" id="maintainAspectRatio" checked>
+                            Manter proporção
+                        </label>
+                    </div>
+                    <div class="button-group">
+                        <button id="resizeBtn">Aplicar</button>
+                        <button id="resizeDownloadBtn" class="download-btn">Baixar</button>
+                        <button id="resizeResetBtn" class="reset-btn">Reset</button>
+                    </div>
+                </div>
+
+                <!-- Aba de Recorte -->
+                <div class="tab-content" id="tab-crop">
+                    <div class="input-group">
+                        <p>Arraste na imagem para selecionar a área de recorte</p>
+                    </div>
+                    <div class="input-group">
+                        <label for="cropWidthInput">Largura do recorte:</label>
+                        <input type="number" id="cropWidthInput" min="10" placeholder="Largura">
+                    </div>
+                    <div class="input-group">
+                        <label for="cropHeightInput">Altura do recorte:</label>
+                        <input type="number" id="cropHeightInput" min="10" placeholder="Altura">
+                    </div>
+                    <div class="button-group">
+                        <button id="cropBtn">Aplicar</button>
+                        <button id="cropDownloadBtn" class="download-btn">Baixar</button>
+                        <button id="resetCropBtn" class="reset-btn">Reset</button>
+                    </div>
+                </div>
+
+                <!-- Aba de Filtros -->
+                <div class="tab-content" id="tab-filters">
+                    <div class="input-group">
+                        <label for="brightnessSlider">Brilho:</label>
+                        <div class="slider-container">
+                            <input type="range" id="brightnessSlider" min="0" max="200" value="100">
+                            <span class="slider-value" id="brightnessValue">100%</span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="contrastSlider">Contraste:</label>
+                        <div class="slider-container">
+                            <input type="range" id="contrastSlider" min="0" max="200" value="100">
+                            <span class="slider-value" id="contrastValue">100%</span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="saturationSlider">Saturação:</label>
+                        <div class="slider-container">
+                            <input type="range" id="saturationSlider" min="0" max="200" value="100">
+                            <span class="slider-value" id="saturationValue">100%</span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Filtros pré-definidos:</label>
+                        <div class="filter-grid">
+                            <div class="filter-option" data-filter="normal">
+                                <div class="filter-preview"></div>
+                                <span>Normal</span>
+                            </div>
+                            <div class="filter-option" data-filter="grayscale">
+                                <div class="filter-preview"></div>
+                                <span>P&B</span>
+                            </div>
+                            <div class="filter-option" data-filter="sepia">
+                                <div class="filter-preview"></div>
+                                <span>Sépia</span>
+                            </div>
+                            <div class="filter-option" data-filter="vintage">
+                                <div class="filter-preview"></div>
+                                <span>Vintage</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="button-group">
+                        <button id="applyFilterBtn">Aplicar</button>
+                        <button id="filterDownloadBtn" class="download-btn">Baixar</button>
+                        <button id="resetFilterBtn" class="reset-btn">Reset</button>
+                    </div>
+                </div>
+
+                <!-- Aba de Compressão -->
+                <div class="tab-content" id="tab-compress">
+                    <div class="input-group">
+                        <label for="qualitySlider">Qualidade:</label>
+                        <div class="slider-container">
+                            <input type="range" id="qualitySlider" min="1" max="100" value="80">
+                            <span class="slider-value" id="qualityValue">80%</span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="compressionType">Tipo de Compressão:</label>
+                        <select id="compressionType">
+                            <option value="image/jpeg">JPG</option>
+                            <option value="image/webp">WEBP</option>
+                        </select>
+                    </div>
+                    <button id="compressBtn" class="download-btn">Comprimir e Baixar</button>
+                </div>
+            </div>
+
+            <div class="preview-panel">
+                <div class="preview-area">
+                    <div class="film-holes left">
+                        <div class="film-hole"></div>
+                        <div class="film-hole"></div>
+                        <div class="film-hole"></div>
+                        <div class="film-hole"></div>
+                        <div class="film-hole"></div>
+                        <div class="film-hole"></div>
+                        <div class="film-hole"></div>
+                        <div class="film-hole"></div>
+                    </div>
+                    <div class="film-holes right">
+                        <div class="film-hole"></div>
+                        <div class="film-hole"></div>
+                        <div class="film-hole"></div>
+                        <div class="film-hole"></div>
+                        <div class="film-hole"></div>
+                        <div class="film-hole"></div>
+                        <div class="film-hole"></div>
+                        <div class="film-hole"></div>
+                    </div>
+                    <img id="preview" style="display: none;">
+                    <div class="crop-overlay" id="cropOverlay"></div>
+                </div>
+                <p id="noImageText">Nenhuma imagem selecionada. Arraste uma imagem ou use o botão para selecionar.</p>
+                <div id="messageArea" style="display: none;" class="message success"></div>
+                <canvas id="canvas" style="display:none;"></canvas>
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <span id="statusText">Carregue uma imagem para começar</span>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-copyright">
+            &copy; 2025 Imagem Lab - <a href="https://github.com/NathCADev">NathCADev</a>. <a
+                href="https://www.flaticon.com/free-icons/camera" title="camera icons">Camera icon created by Freepik -
+                Flaticon</a>. Todos os direitos reservados.
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
